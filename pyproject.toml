@@ -1,0 +1,25 @@
+[project]
+name = "pyucc"
+version = "1.0"
+description = "A high level, unoptimized, colored console written in python."
+license = {file = "LICENSE"}
+
+authors = [
+  {name="Trelta", email="treltasev@gmail.com"}
+]
+
+maintainers = [
+  {name = "Trelta", email="treltasev@gmail.com"}
+]
+
+requires-python = ">=3.5"
+
+[project.urls]
+"Source Code" = "https://github.com/treltasev/pyucc"
+
+[project.scripts]
+pyucc = "pyucc.cli:main"
+
+[build-system]
+requires = ["setuptools>=46.4.0", "wheel"]
+build-backend = "setuptools.build_meta"
