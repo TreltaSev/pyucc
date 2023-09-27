@@ -1,7 +1,7 @@
 import re
 import traceback
 from typing import Any, Union, List, Optional, Literal
-from pyucc import errors
+from pyucc import errors, colors, symbols
 import datetime
 
 class console:
@@ -29,7 +29,7 @@ class console:
     console.cprint(*values, sep=sep, end=end, file=file, flush=flush)
 
   @staticmethod
-  def format(*values: List[Any], sep: Optional[str] = "", itemized: Optional[bool] = False) -> Union[str, List[str]]:
+  def format(*values: List[Any], sep: Optional[str] = " ", itemized: Optional[bool] = False) -> Union[str, List[str]]:
     """
     Parses a given text(s) while replacing specific key codes
     and turning them into colorized text inside the console.
@@ -48,12 +48,9 @@ class console:
       try:      
 
         # Find all color formatting
-        regularMatch = re.compile(r"\<([^}]*)\}").search(textSection)
-
-        # Iterate through all matches
-        if regularMatch:
-          for match in regularMatch.groups():
-            textSection = textSection.replace(f"<{match}}}", f"\u001B[{match}m")
+        regularMatch = re.compile(r"\<([^}]*)\}").findall(textSection)          
+        for match in regularMatch:
+          textSection = textSection.replace(f"<{match}}}", f"\u001B[{match}m")
 
         __colorized.append(textSection)
 
@@ -144,9 +141,6 @@ class console:
         
         if not overwrite:
           raise errors.OverwriteTrigger(identifier, "overwrite")
-        
-        
-      
 
       def wrapper(*args, **kwargs):        
         __callable(*args, **kwargs, time=datetime.datetime.now().strftime("%m/%d/%Y %I:%M:%S %p"))
@@ -154,6 +148,9 @@ class console:
       # Save the function to cache for later calling
       setattr(cls, identifier, wrapper)  
       return wrapper
-    return initialize
-    
+    return initialize   
 
+@console.register(identifier="example")
+def example(*values, **optional):
+  time: str = optional.get("time")
+  console.cprint(f"{colors.vibrant_violet.switch} TEST {symbols.reset}{colors.chex('#aaaaaa')} {time} {symbols.reset}", *values)

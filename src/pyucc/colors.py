@@ -6,6 +6,16 @@ class pyucc_useable:
   def __init__(self, type: Literal["foreground", "background"] = "foreground") -> None:
     self.type = type
 
+  @property
+  def switch(self) -> str:
+    """
+    Switches the current type and this method also returns the formated value
+    :return: A Formated string of the other type
+    :rtype: str
+    """
+    self.type = "foreground" if self.type == "background" else "background"
+    return self.__repr__()
+
   def __repr__(self) -> str:
     return f"<{'38' if self.type == 'foreground' else '48'};2;{self.r};{self.g};{self.b}}}"
 
@@ -42,7 +52,10 @@ class chex(pyucc_useable):
     Returns an object containing a rgb notation in a string
     that can be used with pyucc
 
-    :param __hex: The hex color like #ff
+    :param __hex: The hex color like #fff or #ffffff
+    :param type: The type being 'foreground' or 'background'
+    :return: an object containing r, g, and b as values and when printed is formatted.
+    :rtype: self
     """
 
     super().__init__(type=type)
@@ -82,3 +95,10 @@ class chex(pyucc_useable):
       raise errors.InvalidInput(content, "Converting Hex to Int", "A Valid Hex Color Code", "f or ff")
     return __decimal
 
+white = chex("#ffffff", "foreground")
+vibrant_green = chex("#71ff71", "foreground")
+vibrant_yellow = chex("#FFCE00", "foreground")
+vibrant_orange = chex("#FF7300", "foreground")
+vibrant_red = chex("#FF3F30", "foreground")
+vibrant_blue = chex("#305EFF", "foreground")
+vibrant_violet = chex("#8942BE", "foreground")
