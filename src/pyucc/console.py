@@ -79,6 +79,14 @@ class console:
     """    
     print(*cls.format(*values, sep=None, itemized=True), sep=sep, end=end, file=file, flush=flush)
 
+  @classmethod
+  def register(cls, func):
+    
+    def wrapper(*args, **kwargs):
+      print(func, args, kwargs)
+    
+    return wrapper
+
   def __getattribute__(self, __name: str) -> Any:
     print(f"Getting {__name}")
     
