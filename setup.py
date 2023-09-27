@@ -4,7 +4,7 @@ __longdescription = open("README.md", 'r').read()
 
 setup(
     name="pyucc",
-    version="1.6",
+    version="1.7",
     description="A high level, unoptimized, colored console written in python.",
     long_description=__longdescription,
     long_description_content_type="text/markdown",
@@ -22,5 +22,10 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
-    ]
+    ],
+    entry_points = {
+      "console_scripts": [
+        "pyucc = pyucc.cli:main"
+      ]
+    }
 )
